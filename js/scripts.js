@@ -1,15 +1,10 @@
 
 let pokemonRepository = (function () {
-    let pokemonList = [
-        {name: 'Nidoqueen' , height:1.3 , types: ['GROUND', 'POISEN']},
-        {name: 'Omanyte' , height:0.4 , types: ['WATER', 'ROCK']},
-        {name: 'Weavile' , height:1.1 , types: ['DARK', 'ICE']},
-        {name: 'Crobat' , height:1.8 , types: ['FLYING', 'POISEN']},
-        {name: 'Pignite' , height:1.0 , types: ['FIRE', 'FIGHTING']}
-    ];
+    let pokemonList = [];
+    let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
     function add(pokemon) {
-        if (typeof pokemon === 'object' && Object.keys(pokemonList[0]).every(key => key in pokemon))
+        if (typeof pokemon === 'object' && 'name' in pokemon && 'detailsUrl' in pokemon)
             {
 
             pokemonList.push(pokemon);
@@ -42,35 +37,79 @@ let pokemonRepository = (function () {
 
     }
 
-    function showDetails(pokemon){
-        console.log(pokemon.name)
+    function showLoadingMessage() {
+        let loadingMessage = document.createElement('div');
+        loadingMessage.id = 'loading-message';
+        loadingMessage.textContent = 'Loading, please wait...';
+        document.body.appendChild(loadingMessage);
     }
+
+    function hideLoadingMessage() {
+        let loadingMessage = document.getElementById('loading-message');
+        if (loadingMessage) {
+            loadingMessage.remove();
+        }
+    }
+
+    function loadList() {
+        showLoadingMessage();
+        return fetch(apiUrl).then(function (response) {
+          return response.json();
+        }).then(function (json) {
+            hideLoadingMessage();
+          json.results.forEach(function (item) {
+            let pokemon = {
+              name: item.name,
+              detailsUrl: item.url
+            };
+            add(pokemon);
+            console.log(pokemon);
+          });
+        }).catch(function (e) {
+            hideLoadingMessage();
+          console.error(e);
+        })
+      }
+
+    function loadDetails(item) {
+        showLoadingMessage();
+        let url = item.detailsUrl;
+        return fetch(url).then(function (response) {
+            return response.json();
+            }).then(function (details) {
+                hideLoadingMessage();
+                item.imageUrl = details.sprites.front_default;
+                item.height = details.height;
+                item.types = details.types;
+            }).catch(function (e) {
+                hideLoadingMessage();
+                console.error(e);
+            });
+     }
+
+    function showDetails(pokemon){
+        loadDetails(pokemon).then(function () {
+        console.log(pokemon);
+        });
+     }
 
     return {
         add: add,
         getAll: getAll,
         filterItem: filterItem,
-        addListItem: addListItem
-    };
+        addListItem: addListItem,
+        loadList: loadList,
+        loadDetails: loadDetails,
+        showDetails: showDetails
+     };
 })();
 
+pokemonRepository.loadList().then(function() {
+    pokemonRepository.getAll().forEach(function(pokemon){
+      pokemonRepository.addListItem(pokemon);
+    });
+  });
 
-
-//this code is just for testing the typeof
-pokemonRepository.add( {x: 'TANNAZ' , height: 1.6 , types: ['haha','hihi']})
-
-pokemonRepository.add( {name: 'Vileplume' , height: 1.2 , types: ['GRASS','POISEN']})
-console.log(pokemonRepository.filterItem('Crobat'))
-console.log(pokemonRepository.getAll());
-
-
-
-
-//printing the name and the height of the Pokemons
-
-pokemonRepository.getAll().forEach(function(pokemon){
-    pokemonRepository.addListItem(pokemon)
-});
 
 
 
