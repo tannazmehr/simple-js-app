@@ -1,3 +1,4 @@
+
 let pokemonRepository = (function () {
     let pokemonList = [
         {name: 'Nidoqueen' , height:1.3 , types: ['GROUND', 'POISEN']},
@@ -24,18 +25,41 @@ let pokemonRepository = (function () {
 
     function filterItem(name) {
 
-       return pokemonList.filter(pokemon => pokemon.name === name);
+       return pokemonList.filter(randomName => randomName.name === name);
+    }
+    function addListItem(pokemon){
+        let unorderedList = document.querySelector('.pokemon-list');
+        let listItem = document.createElement('li');
+        let button = document.createElement('button');
+        button.innerText = pokemon.name;
+        button.classList.add('pokemon-button');
+        button.addEventListener('click', function () {
+            showDetails(pokemon);
+        });
+        listItem.appendChild(button);
+        unorderedList.appendChild(listItem);
+    
+
+    }
+
+    function showDetails(pokemon){
+        console.log(pokemon.name)
     }
 
     return {
         add: add,
         getAll: getAll,
-        filterItem: filterItem
+        filterItem: filterItem,
+        addListItem: addListItem
     };
 })();
 
+
+
+//this code is just for testing the typeof
 pokemonRepository.add( {x: 'TANNAZ' , height: 1.6 , types: ['haha','hihi']})
-pokemonRepository.add( {name: 'Pishi' , height: 1.6 , types: ['haha','hihi']})
+
+pokemonRepository.add( {name: 'Vileplume' , height: 1.2 , types: ['GRASS','POISEN']})
 console.log(pokemonRepository.filterItem('Crobat'))
 console.log(pokemonRepository.getAll());
 
@@ -45,19 +69,10 @@ console.log(pokemonRepository.getAll());
 //printing the name and the height of the Pokemons
 
 pokemonRepository.getAll().forEach(function(pokemon){
-    document.write("<p>" + `${pokemon.name} : ${pokemon.height}` + "</p>" )
+    pokemonRepository.addListItem(pokemon)
 });
 
 
-
-/*for (let i = 0; i < pokemonList.length; i++) {
-    if (pokemonList[i].height > 1.5) {
-        label = 'You are the biggest Pokemon!'
-    }else{
-        label=''
-    }
-    document.write("<p>" + `${pokemonList[i].name} (H:${pokemonList[i].height}) ${label}` + "</p>")
-}*/
 
 
 
