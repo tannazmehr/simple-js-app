@@ -1,4 +1,4 @@
-p {
+/*p {
     color:#6498a4;
     line-height: 1.5;
 }
@@ -9,8 +9,8 @@ ul{
 
 .pokemon-button {
     background-color: #fff;
-    border: #6498a4 solid;
-    text-align: center;
+    /*border: #6498a4 solid;*/
+   /* text-align: center;
     padding: 20px 40px;
     font-size: 18px;
     border-radius: 8px;
@@ -83,4 +83,4 @@ ul{
     margin-top: center;
     width:40% ;
     height: 40%;
-}
+}*/
