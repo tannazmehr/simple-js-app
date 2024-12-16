@@ -10,17 +10,26 @@
 </head>
 <body>
         <nav class="navbar navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">POK.é.MON</a>
+            <a class="navbar-brand" href="#" id="navbarBrand">
+              <img
+              src="img/pokemon-logo.png"
+              width="90"
+              height="60"
+              alt="Pokemon logo"
+            />
+              POK.é.MON</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </nav>
-  
-        <ul class="pokemon-list list-group"></ul>
+        <div class="listAlign">
+          <br><h3 class="text-info">List of Pokemons</h3><br>
+          <ul class="pokemon-list list-group"></ul>
+        </div>
 
         <div class="modal fade" id="pokemonModal" tabindex="-1" role="dialog" aria-labelledby="pokemonModalLabel"
         aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="pokemonModalLabel">Details</h5></div>
@@ -30,7 +39,7 @@
                   <p class="pokemon-types"></p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
                 </div>
               </div>
             </div>

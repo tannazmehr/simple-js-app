@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 
 let pokemonRepository = (function () {
     let pokemonList = [];
@@ -67,7 +68,7 @@ let pokemonRepository = (function () {
                 pokemon.height = details.height;
                 pokemon.types ='';
                 for(let i=0; i<details.types.length; i++){
-                    item.types += details.types[i].type.name + ' ';
+                    pokemon.types += details.types[i].type.name + ' ';
                 }               
             }).catch(function (e) {
                 hideLoadingMessage();
@@ -85,9 +86,11 @@ let pokemonRepository = (function () {
             pokemonName.innerText = pokemon.name;
             pokemonImage.src = pokemon.imageUrl;
             pokemonHeight.innerText = `Height: ${pokemon.height}`;
-            pokemonTypes.innerText = `Powers: ${pokemon.types.join(',')}`;
+            pokemonTypes.innerText = `Powers: ${pokemon.types}`;
 
-            $('#pokemonModal').modal('show');
+            const pokemonModal = document.getElementById('pokemonModal');
+            const modal = new bootstrap.Modal(pokemonModal);
+            modal.show();
 
         });
 
@@ -99,7 +102,7 @@ let pokemonRepository = (function () {
         listItem.classList.add('list-group-item');
         let button = document.createElement('button');
         button.innerText = pokemon.name;
-        button.classList.add('btn','btn-outline-success');
+        button.classList.add('btn','btn-outline-info', 'pokemonButton');
         button.setAttribute('data-toggle','modal');
         button.setAttribute('data-target','#pokemonModal');
         button.addEventListener('click', function () {
@@ -124,22 +127,3 @@ pokemonRepository.loadList().then(function() {
       pokemonRepository.addListItem(pokemon);
     });
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
